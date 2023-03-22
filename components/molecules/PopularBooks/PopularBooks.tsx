@@ -17,7 +17,6 @@ export default function PopularBooks() {
     return <p>Error occurred while fetching popular books.</p>;
   }
 
-  console.log(data, "pOPULAR");
   return (
     <Box>
       <Container
