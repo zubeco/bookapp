@@ -15,7 +15,7 @@ export default function AuthBtns() {
     >
       <Box
         onClick={() => router.push("/auth/login")}
-        bg={router.pathname === "/auth/login" ? "#4D47C3" : "#ECF2FF"}
+        bg={router.pathname === "/auth/login" ? "#c5c0a5" : "#ECF2FF"}
         px="30px"
         borderRadius={"20px"}
         py="2px"
@@ -23,13 +23,13 @@ export default function AuthBtns() {
         textDecoration="none"
         fontSize={"16px"}
         fontWeight={500}
-        color={router.pathname === "/auth/login" ? "#FFFFFF" : "#000000"}
+        color={router.pathname === "/auth/login" ? "#5a5f4e" : "#000000"}
       >
         Login
       </Box>
       <Box
         onClick={() => router.push("/auth/register")}
-        bg={router.pathname === "/auth/register" ? "#4D47C3" : "#ECF2FF"}
+        bg={router.pathname === "/auth/register" ? "#c5c0a5" : "#ECF2FF"}
         px="30px"
         borderRadius={"20px"}
         py="2px"
@@ -37,7 +37,7 @@ export default function AuthBtns() {
         textDecoration="none"
         fontSize={"16px"}
         fontWeight={500}
-        color={router.pathname === "/auth/register" ? "#FFFFFF" : "#000000"}
+        color={router.pathname === "/auth/register" ? "#5a5f4e" : "#000000"}
       >
         Register
       </Box>

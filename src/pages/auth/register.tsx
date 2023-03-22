@@ -9,16 +9,33 @@ import {
 } from "@chakra-ui/react";
 import React, { FormEvent, useState } from "react";
 import AuthBtns from "../../../components/molecules/AuthBtns/AuthBtns";
+import { useMutation } from "react-query";
+import { registerPost } from "../../../api/registerApi";
+import { useRouter } from "next/router";
 
-export default function register() {
+export default function Register() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
+  const { mutate, isLoading, isSuccess, isError, error } = useMutation(
+    registerPost,
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        // Do something with the response data
+        router.push(`/auth/login`);
+      },
+      onError: (error) => {
+        console.error(error);
+        // Do something with the error
+      },
+    }
+  );
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // prevent default form submission behavior
-    // handle form submission logic here
-    console.log(password, email, fullname);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutate({ name: fullname, email, password });
   };
 
   return (
@@ -77,11 +94,22 @@ export default function register() {
               type="submit"
               width={"100%"}
               mt="40px"
-              color={"white"}
-              bg="#4D47C3"
+              color={"#5a5f4e"}
+              bg="#c5c0a5"
+              disabled={isLoading}
             >
-              Register
+              {isLoading ? "Loading..." : "Register"}
             </Button>
+            {/* {isError && (
+              <FormHelperText mt="20px" color="red">
+                {error.message}
+              </FormHelperText>
+            )} */}
+            {isSuccess && (
+              <FormHelperText mt="20px" color="green">
+                Registration successful!
+              </FormHelperText>
+            )}
           </FormControl>
         </form>
       </Box>

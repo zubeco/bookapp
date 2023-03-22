@@ -9,16 +9,34 @@ import {
 } from "@chakra-ui/react";
 import React, { FormEvent, useState } from "react";
 import AuthBtns from "../../../components/molecules/AuthBtns/AuthBtns";
+import { useMutation } from "react-query";
+import { loginPost } from "../../../api/loginApi";
+import { useRouter } from "next/router";
 
-export default function login() {
+export default function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { mutate, isLoading, isSuccess, isError, error } = useMutation(
+    loginPost,
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        localStorage.setItem("token", data.token);
+        const redirectUrl = router.query.redirectUrl || "/";
+        router.push(redirectUrl.toString());
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    }
+  );
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // prevent default form submission behavior
-    // handle form submission logic here
-    console.log(password, email);
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    mutate({ email, password });
   };
+  console.log(error);
 
   return (
     <Box
@@ -27,6 +45,7 @@ export default function login() {
       display="flex"
       justifyContent={"center"}
       alignItems="center"
+      color={"black"}
     >
       <Box
         bg={"white"}
@@ -34,7 +53,7 @@ export default function login() {
         height={"fit"}
         display="flex"
         flexDirection={"column"}
-        alignItems="center"
+        alignItems={"center"}
         py="50px"
         px="20px"
       >
@@ -67,11 +86,24 @@ export default function login() {
               type="submit"
               width={"100%"}
               mt="40px"
-              color={"white"}
-              bg="#4D47C3"
+              color={"#5a5f4e"}
+              bg="#c5c0a5"
+              disabled={isLoading}
             >
-              Login
+              {isLoading ? "Loading..." : "Login"}
             </Button>
+            {isSuccess && (
+              <FormHelperText textAlign="center" mt="20px">
+                Login successful!
+              </FormHelperText>
+            )}
+            {/* {isError && (
+              <FormHelperText textAlign="center" mt="20px" color="red.500">
+                {error && error?.message
+                  ? error?.message
+                  : "An error occurred."}
+              </FormHelperText>
+            )} */}
           </FormControl>
         </form>
       </Box>
