@@ -13,6 +13,7 @@ export default function PopularBooks() {
     return <p>Loading...</p>;
   }
 
+  
   if (isError) {
     return <p>Error occurred while fetching popular books.</p>;
   }
