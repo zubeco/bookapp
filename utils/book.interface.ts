@@ -1,26 +1,11 @@
 export interface EachBook {
-  publishers: string[];
-  isbn_invalid: string[];
-  ia_box_id: string[];
-  covers: number[];
-  physical_format: string;
   key: string;
-  authors: Author[];
-  publish_places: string[];
-  pagination: string;
-  source_records: string[];
   title: string;
-  number_of_pages: number;
-  publish_date: string;
-  publish_country: string;
-  by_statement: string;
-  works: Work[];
-  type: Type;
-  identifiers: Identifiers;
-  ocaid: string;
-  oclc_numbers: string[];
-  classifications: Classifications;
-  languages: Language[];
+  first_publish_date: string;
+  authors: Author[];
+  type: Type2;
+  covers: number[];
+  subjects: string[];
   latest_revision: number;
   revision: number;
   created: Created;
@@ -29,10 +14,11 @@ export interface EachBook {
 }
 
 export interface Author {
-  key: string;
+  author: Author2;
+  type: Type;
 }
 
-export interface Work {
+export interface Author2 {
   key: string;
 }
 
@@ -40,11 +26,7 @@ export interface Type {
   key: string;
 }
 
-export interface Identifiers {}
-
-export interface Classifications {}
-
-export interface Language {
+export interface Type2 {
   key: string;
 }
 

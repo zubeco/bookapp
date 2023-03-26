@@ -23,7 +23,6 @@ function BookSearch() {
   } = useQuery(queryKey, () =>
     fetchBooks(searchTerm as string, pageNumber as number)
   );
-  console.log(books, pageNumber);
   // if (isError) return <div>isError: {isError.message}</div>;
   return (
     <Box bg="#e1dcc5" minH={"100vh"} pb="10vh">

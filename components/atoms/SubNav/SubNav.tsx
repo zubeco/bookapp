@@ -1,8 +1,10 @@
 import {
+  Badge,
   Box,
   Button,
   CheckboxIcon,
   Container,
+  Flex,
   Input,
   InputGroup,
   InputLeftElement,
@@ -13,10 +15,28 @@ import {
 import { useRouter } from "next/router";
 import React, { FormEvent, useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { useQuery } from "react-query";
+import { fetchCart } from "../../../api/fetchCart";
+
+export type FetchedCartItem = CartItem[];
+
+export interface CartItem {
+  _id: string;
+  itemId: string;
+  name: string;
+  quantity: number;
+  user: string;
+  __v: number;
+}
 
 export default function SubNav() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const { data, isLoading, isError, error } = useQuery<CartItem[]>(
+    "cart",
+    fetchCart
+  );
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -31,6 +51,7 @@ export default function SubNav() {
     }
   };
 
+  console.log(data, "tt");
   return (
     <div>
       <Box bg="#333333" height={"40px"} display="flex" alignItems="center">
@@ -86,7 +107,29 @@ export default function SubNav() {
               </InputRightElement>
             </InputGroup>
           </form>
-
+          <Flex
+            alignItems="center"
+            pl="6"
+            cursor="pointer"
+            onClick={() => router.push("/cart")}
+            // bg="green"
+            position={"relative"}
+          >
+            <Box as={MdOutlineShoppingCart} fontSize="3xl" />
+            {data && (
+              <Badge
+                bg="#0376b8"
+                borderRadius="full"
+                fontSize="10px"
+                position={"absolute"}
+                top="0"
+                right={"0px"}
+                fontWeight="700"
+              >
+                {data?.length}
+              </Badge>
+            )}
+          </Flex>
           <Button
             width={"100px"}
             bg="#0376b8"

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import getPopularBooks from "../../../api/fetchPopularBooks";
 
-
 export default function PopularBooks() {
   const router = useRouter();
   const { data, isLoading, isError } = getPopularBooks();
@@ -33,7 +32,7 @@ export default function PopularBooks() {
         <Box py="20px">
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             {Array.isArray(data) &&
-              data.map((each) => {
+              data.map((each, index) => {
                 return (
                   <GridItem
                     w="100%"
@@ -44,6 +43,7 @@ export default function PopularBooks() {
                     borderRadius="5px"
                     onClick={() => router.push(`/book/${each.key}`)}
                     cursor="pointer"
+                    key={index}
                   >
                     <Image
                       src={each?.coverUrl}

@@ -22,6 +22,7 @@ export default function Login() {
     {
       onSuccess: (data) => {
         console.log(data);
+        localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("token", data.token);
         const redirectUrl = router.query.redirectUrl || "/";
         router.push(redirectUrl.toString());
