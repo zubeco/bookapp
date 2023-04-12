@@ -40,8 +40,6 @@ export default function ConfirmOrder() {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  console.log(generateRandomNumber());
-  console.log(users);
   return (
     <Box bg="#e1dcc5" minH={"100vh"} pb="10vh">
       <Box
