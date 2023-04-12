@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import React, { FormEvent, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { fetchCart } from "../../../api/fetchCart";
 
 export type FetchedCartItem = CartItem[];
@@ -33,13 +33,25 @@ export interface CartItem {
 export default function SubNav() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading, isError, error } = useQuery<CartItem[]>(
-    "cart",
-    fetchCart
+  const queryClient = useQueryClient();
+  const userString =
+    typeof localStorage !== "undefined"
+      ? localStorage.getItem("user") ?? ""
+      : "";
+  const userObject = userString ? JSON.parse(userString) : null;
+  const userId = userObject?.user?.user_id;
+
+  const { data, isLoading, isError, error } = useQuery<CartItem[]>("cart", () =>
+    fetchCart(userId)
   );
 
   const handleLogout = () => {
+    queryClient.invalidateQueries("cart");
+
+    // Remove the authentication token from local storage
     localStorage.removeItem("token");
+
+    // Redirect the user to the login page
     router.push(`/auth/login`);
   };
 
@@ -51,7 +63,6 @@ export default function SubNav() {
     }
   };
 
-  console.log(data, "tt");
   return (
     <div>
       <Box bg="#333333" height={"40px"} display="flex" alignItems="center">
@@ -111,12 +122,12 @@ export default function SubNav() {
             alignItems="center"
             pl="6"
             cursor="pointer"
-            onClick={() => router.push("/cart")}
+            onClick={() => router.push("/cart/checkout")}
             // bg="green"
             position={"relative"}
           >
             <Box as={MdOutlineShoppingCart} fontSize="3xl" />
-            {data && (
+            {data && data.length >= 1 ? (
               <Badge
                 bg="#0376b8"
                 borderRadius="full"
@@ -126,9 +137,9 @@ export default function SubNav() {
                 right={"0px"}
                 fontWeight="700"
               >
-                {data?.length}
+                {data.length}
               </Badge>
-            )}
+            ) : null}
           </Flex>
           <Button
             width={"100px"}

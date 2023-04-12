@@ -41,7 +41,7 @@ export default function SearchedItems({
         navState={navState}
       />
       {isLoading ? (
-        <Loader />
+        <Loader bgColor="" />
       ) : (
         <>
           {navState === "books" && (

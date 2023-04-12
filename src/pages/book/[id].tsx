@@ -39,10 +39,6 @@ export default function Book() {
   const userObject = userString ? JSON.parse(userString) : null;
   const userId = userObject?.user?.user_id;
   const toast = useToast();
-  // rest of your code here
-
-  // rest of your code here
-
   const { data, isLoading, error } = useBookById(id as string);
   const addToCartMutation = useMutation(
     (bookId: string) => addCartItem(userId, bookId),
@@ -73,7 +69,7 @@ export default function Book() {
         border="1px solid #babbae"
       >
         {isLoading ? (
-          <Loader />
+          <Loader bgColor={"#FFF"} />
         ) : (
           <Flex width={"100%"} height="100%" gap={"20px"}>
             <Box
@@ -127,7 +123,7 @@ export default function Book() {
                     </>
                   )}
                 </Button>
-                <Box
+                {/* <Box
                   bg="#FFFFFF"
                   px="20px"
                   py="8px"
@@ -155,7 +151,7 @@ export default function Book() {
                   textAlign={"center"}
                 >
                   Want to read
-                </Box>
+                </Box> */}
               </Flex>
             </Box>
             <Box width={"80%"} py="15px">
@@ -180,14 +176,6 @@ export default function Book() {
                 {data?.title}
               </Text>
 
-              {/* {data?.by_statement && (
-                <Text fontSize={"1em"} color="#333">
-                  by{" "}
-                  <Text as="span" textDecoration={"underline"}>
-                    {data?.by_statement}
-                  </Text>
-                </Text>
-              )} */}
               {data?.subjects && (
                 <Box>
                   <Text fontWeight={700}>

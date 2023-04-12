@@ -21,7 +21,12 @@ export default function BookList({
   return (
     <div>
       <Flex width={"100%"} height="100%" gap={"20px"}>
-        <Box width={"80%"} display={"flex"} flexDirection="column" gap={"10px"}>
+        <Box
+          width={"100%"}
+          display={"flex"}
+          flexDirection="column"
+          gap={"10px"}
+        >
           {books?.map((book, index) => {
             return (
               <Box
@@ -104,10 +109,12 @@ export default function BookList({
                         color="white"
                         fontWeight={700}
                         borderRadius="5px"
+                        onClick={() => router.push(`/book/${book.key}`)}
+                        cursor="pointer"
                       >
-                        Borrow
+                        View Book
                       </Box>
-                      <Box
+                      {/* <Box
                         bg="#208731"
                         px="20px"
                         py="8px"
@@ -119,7 +126,7 @@ export default function BookList({
                         borderRadius="5px"
                       >
                         Want to read
-                      </Box>
+                      </Box> */}
                     </Flex>
                   </Flex>
                 </Box>
@@ -149,7 +156,7 @@ export default function BookList({
             </Button>
           </Flex>
         </Box>
-        <Box width={"20%"} bg=""></Box>
+        {/* <Box width={"20%"} bg=""></Box> */}
       </Flex>
     </div>
   );

@@ -9,16 +9,14 @@ export interface CartItem {
   itemId: string;
   name: string;
   quantity: number;
+  price: number;
+  instock: number;
+  coverUrl: string;
   user: string;
   __v: number;
 }
 
-const userString =
-  typeof localStorage !== "undefined" ? localStorage.getItem("user") ?? "" : "";
-const userObject = userString ? JSON.parse(userString) : null;
-const userId = userObject?.user?.user_id;
-
-export const fetchCart = async () => {
+export const fetchCart = async (userId: string) => {
   try {
     const response = await axios.get<FetchedCartItem>(
       `${API_URL}/cart/cart_items/${userId}/cart`
